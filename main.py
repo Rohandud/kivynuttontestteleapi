@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from testtele import send_message_to_user
+# from testtele import send_message_to_user
 
 class ButtonApp(App):
     def build(self):
@@ -27,7 +27,7 @@ class ButtonApp(App):
 
     def on_button_release(self, instance):
         # This function will be called when a button is released
-        send_message_to_user(f'Button {instance.text} pressed')
+        # send_message_to_user(f'Button {instance.text} pressed')
         print(f'Button {instance.text} released')
 
 if __name__ == '__main__':
