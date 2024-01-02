@@ -1,34 +1,56 @@
-from kivymd.app import MDApp
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.toast import toast
+from kivy.uix.textinput import TextInput
 
-class ButtonApp(MDApp):  # Change the inheritance to MDApp
+class SayHello(App):
     def build(self):
-        layout = BoxLayout(orientation='vertical')
-        
-        # Define two buttons
-        button1 = Button(text='Button 1')
-        button2 = Button(text='Button 2')
+        #returns a window object with all it's widgets
+        self.window = GridLayout()
+        self.window.cols = 1
+        self.window.size_hint = (0.6, 0.7)
+        self.window.pos_hint = {"center_x": 0.5, "center_y":0.5}
 
-        # Bind functions to the on_press and on_release events of the buttons
-        button1.bind(on_press=self.on_button_press, on_release=self.on_button_release)
-        button2.bind(on_press=self.on_button_press, on_release=self.on_button_release)
+        # image widget
+        self.window.add_widget(Image(source="logo.png"))
 
-        # Add buttons to the layout
-        layout.add_widget(button1)
-        layout.add_widget(button2)
+        # label widget
+        self.greeting = Label(
+                        text= "What's your name?",
+                        font_size= 18,
+                        color= '#00FFCE'
+                        )
+        self.window.add_widget(self.greeting)
 
-        return layout
+        # text input widget
+        self.user = TextInput(
+                    multiline= False,
+                    padding_y= (20,20),
+                    size_hint= (1, 0.5)
+                    )
 
-    def on_button_press(self, instance):
-        # This function will be called when a button is pressed
-        print(f'Button {instance.text} pressed')
+        self.window.add_widget(self.user)
 
-    def on_button_release(self, instance):
-        # This function will be called when a button is released
-        print(f'Button {instance.text} released')
-        toast(f'Button {instance.text} released')
+        # button widget
+        self.button = Button(
+                      text= "GREET",
+                      size_hint= (1,0.5),
+                      bold= True,
+                      background_color ='#00FFCE',
+                      #remove darker overlay of background colour
+                      # background_normal = ""
+                      )
+        self.button.bind(on_press=self.callback)
+        self.window.add_widget(self.button)
 
-if __name__ == '__main__':
-    ButtonApp().run()
+        return self.window
+
+    def callback(self, instance):
+        # change label text to "Hello + user name!"
+        self.greeting.text = "Hello " + self.user.text + "!"
+
+# run Say Hello App Calss
+if __name__ == "__main__":
+    SayHello().run()
